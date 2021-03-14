@@ -27,16 +27,22 @@ public class WorkerResource {
     private WorkerRepository repository;
 
     @GetMapping
-    public ResponseEntity<List<Worker>> findAll(){
+    public ResponseEntity<List<Worker>> findAll() {
         List<Worker> workerList = repository.findAll();
         return ResponseEntity.ok(workerList);
     }
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<Worker> findbyId(@PathVariable Long id) throws NotFoundException {
+
+       /* try {
+            Thread.sleep(3000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         logger.info("PORT = " + env.getProperty("local.server.port"));
         Worker worker = repository.findById(id)
-                .orElseThrow(() -> new NotFoundException("worker not found" ));
+                .orElseThrow(() -> new NotFoundException("worker not found"));
         return ResponseEntity.ok(worker);
     }
 }
